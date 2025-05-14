@@ -44,3 +44,12 @@ class ExportFailure extends Failure {
 class EmailFailure extends Failure {
   const EmailFailure({required super.message});
 }
+
+
+class UnexpectedFailure extends Failure {
+  const UnexpectedFailure({required super.message});
+}
+
+class ConnectionFailure extends Failure {
+  const ConnectionFailure({required super.message});
+}
