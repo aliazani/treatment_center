@@ -6,10 +6,11 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:treatment_center/core/network/network_info.dart' as _i6;
-import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_local_data_source.dart'
+import 'package:mockito/src/dummies.dart' as _i6;
+import 'package:treatment_center/core/network/network_info.dart' as _i7;
+import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_local_datasource.dart'
     as _i3;
-import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_remote_data_source.dart'
+import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_remote_datasource.dart'
     as _i5;
 import 'package:treatment_center/features/questionnaire_form/data/models/assessment_form_model.dart'
     as _i2;
@@ -93,40 +94,47 @@ class MockAssessmentRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<bool> saveAssessment(_i2.AssessmentFormModel? assessment) =>
-      (super.noSuchMethod(
-            Invocation.method(#saveAssessment, [assessment]),
-            returnValue: _i4.Future<bool>.value(false),
-          )
-          as _i4.Future<bool>);
-
-  @override
-  _i4.Future<bool> deleteAssessment(String? id) =>
-      (super.noSuchMethod(
-            Invocation.method(#deleteAssessment, [id]),
-            returnValue: _i4.Future<bool>.value(false),
-          )
-          as _i4.Future<bool>);
-
-  @override
   _i4.Future<bool> submitAssessmentViaEmail(
     _i2.AssessmentFormModel? assessment,
-    String? recipientEmail,
-  ) =>
+    String? recipientEmail, {
+    required String? exportFormat,
+    String? subject,
+    String? body,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#submitAssessmentViaEmail, [
-              assessment,
-              recipientEmail,
-            ]),
+            Invocation.method(
+              #submitAssessmentViaEmail,
+              [assessment, recipientEmail],
+              {#exportFormat: exportFormat, #subject: subject, #body: body},
+            ),
             returnValue: _i4.Future<bool>.value(false),
           )
           as _i4.Future<bool>);
+
+  @override
+  _i4.Future<String> exportAssessmentToFile(
+    _i2.AssessmentFormModel? assessment,
+    String? format,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#exportAssessmentToFile, [assessment, format]),
+            returnValue: _i4.Future<String>.value(
+              _i6.dummyValue<String>(
+                this,
+                Invocation.method(#exportAssessmentToFile, [
+                  assessment,
+                  format,
+                ]),
+              ),
+            ),
+          )
+          as _i4.Future<String>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }

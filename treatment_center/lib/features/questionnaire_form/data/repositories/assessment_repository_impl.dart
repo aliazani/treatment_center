@@ -5,8 +5,8 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/assessment_form.dart';
 import '../../domain/repositories/assessment_repository.dart';
-import '../datasources/assessment_local_data_source.dart';
-import '../datasources/assessment_remote_data_source.dart';
+import '../datasources/assessment_local_datasource.dart';
+import '../datasources/assessment_remote_datasource.dart';
 import '../models/assessment_form_model.dart';
 
 class AssessmentRepositoryImpl implements AssessmentRepository {
@@ -55,22 +55,8 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     AssessmentForm assessment,
   ) async {
     try {
-      // Convert domain entity to data model
       final assessmentModel = AssessmentFormModel.fromEntity(assessment);
-
-      // Save locally
       final success = await localDataSource.saveAssessment(assessmentModel);
-
-      // If user is online, also save remotely for backup/sync
-      if (success && await networkInfo.isConnected) {
-        try {
-          await remoteDataSource.saveAssessment(assessmentModel);
-        } on ServerException {
-          // Continue even if remote save fails
-          // We prioritize local storage success
-        }
-      }
-
       return Right(success);
     } on CacheException {
       return Left(CacheFailure(message: 'Failed to save assessment locally.'));
@@ -82,19 +68,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
   @override
   Future<Either<Failure, bool>> deleteAssessment(String id) async {
     try {
-      // Delete locally
       final success = await localDataSource.deleteAssessment(id);
-
-      // If user is online, also delete remotely
-      if (success && await networkInfo.isConnected) {
-        try {
-          await remoteDataSource.deleteAssessment(id);
-        } on ServerException {
-          // Continue even if remote delete fails
-          // We prioritize local deletion success
-        }
-      }
-
       return Right(success);
     } on CacheException {
       return Left(
@@ -111,7 +85,6 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     String recipientEmail,
   ) async {
     try {
-      // Check if device is online
       if (!await networkInfo.isConnected) {
         return Left(
           ConnectionFailure(
@@ -121,13 +94,11 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
         );
       }
 
-      // Convert domain entity to data model
       final assessmentModel = AssessmentFormModel.fromEntity(assessment);
-
-      // Submit via email
       final success = await remoteDataSource.submitAssessmentViaEmail(
         assessmentModel,
         recipientEmail,
+        exportFormat: 'pdf', // Default format
       );
 
       return Right(success);

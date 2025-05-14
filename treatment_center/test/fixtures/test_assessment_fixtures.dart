@@ -1,3 +1,11 @@
+import 'package:treatment_center/features/questionnaire_form/data/models/assessment_form_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/assessment_item_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/assessment_rating_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/assessment_section_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/assessor_info_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/facility_identification_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/facility_services_model.dart';
+import 'package:treatment_center/features/questionnaire_form/data/models/geolocation_model.dart';
 import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_form.dart';
 import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item.dart';
 import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating.dart';
@@ -25,9 +33,31 @@ class TestAssessmentFixtures {
     );
   }
 
+  /// Create a test assessor info model with standard test values
+  static AssessorInfoModel createTestAssessorInfoModel() {
+    return AssessorInfoModel(
+      name: 'Test Assessor',
+      email: 'test@example.com',
+      phoneNumber: '123456789',
+      assessmentDate: _defaultAssessmentDate,
+    );
+  }
+
   /// Create a test geo location object with standard test values
   static GeoLocation createTestGeoLocation() {
     return const GeoLocation(
+      country: 'Test Country',
+      regionProvince: 'Test Region',
+      district: 'Test District',
+      cityVillage: 'Test City',
+      addressOrCoordinates: 'Test Address',
+      locationType: FacilityLocationType.urban,
+    );
+  }
+
+  /// Create a test geo location model with standard test values
+  static GeoLocationModel createTestGeoLocationModel() {
+    return const GeoLocationModel(
       country: 'Test Country',
       regionProvince: 'Test Region',
       district: 'Test District',
@@ -54,9 +84,38 @@ class TestAssessmentFixtures {
     );
   }
 
+  /// Create a test facility identification model with standard test values
+  static FacilityIdentificationModel createTestFacilityIdentificationModel() {
+    return const FacilityIdentificationModel(
+      facilityCode: 'TC001',
+      facilityName: _defaultFacilityName,
+      managingAuthority: ManagingAuthorityType.government,
+      directorName: 'Test Director',
+      directorPhone: '123456789',
+      directorEmail: 'director@example.com',
+      respondentName: 'Test Respondent',
+      respondentPosition: 'Test Position',
+      structureType: FacilityStructureType.permanent,
+      facilityType: FacilityType.screeningAndTemporaryIsolation,
+      existingFacilityType: ExistingFacilityType.primaryHealthClinic,
+    );
+  }
+
   /// Create a test facility services object with standard test values
   static FacilityServices createTestFacilityServices() {
     return const FacilityServices(
+      hasOutpatientServices: true,
+      hasInpatientServices: true,
+      totalInpatientBeds: 50,
+      icuBeds: 10,
+      hasEmergencyUnit: true,
+      hasIcuOrHighDependencyUnit: true,
+    );
+  }
+
+  /// Create a test facility services model with standard test values
+  static FacilityServicesModel createTestFacilityServicesModel() {
+    return const FacilityServicesModel(
       hasOutpatientServices: true,
       hasInpatientServices: true,
       totalInpatientBeds: 50,
@@ -82,7 +141,27 @@ class TestAssessmentFixtures {
       partiallyMeetsDescription: 'Partially meets description',
       doesNotMeetDescription: 'Does not meet description',
       selectedRating: selectedRating,
-      comment: comment ?? 'Test comment',
+      comment: comment,
+    );
+  }
+
+  /// Create a test assessment item model with configurable ID, section number and rating
+  static AssessmentItemModel createTestAssessmentItemModel({
+    required String id,
+    required String sectionNumber,
+    AssessmentRatingModel? selectedRating,
+    String area = 'Test Area',
+    String? comment,
+  }) {
+    return AssessmentItemModel(
+      id: id,
+      sectionNumber: sectionNumber,
+      area: area,
+      meetsTargetDescription: 'Meets target description',
+      partiallyMeetsDescription: 'Partially meets description',
+      doesNotMeetDescription: 'Does not meet description',
+      selectedRating: selectedRating,
+      comment: comment,
     );
   }
 
@@ -111,6 +190,39 @@ class TestAssessmentFixtures {
         );
 
     return AssessmentSection(
+      id: id,
+      sectionNumber: sectionNumber,
+      title: 'Test Section $sectionNumber',
+      description: 'Test section description',
+      items: items,
+    );
+  }
+
+  /// Create a test assessment section model with configurable items
+  static AssessmentSectionModel createTestAssessmentSectionModel({
+    required String id,
+    required String sectionNumber,
+    int itemCount = 3,
+    bool withRatings = false,
+    AssessmentRatingModel? ratingType,
+    List<AssessmentItemModel>? predefinedItems,
+  }) {
+    // Use predefined items if provided, otherwise generate them
+    final items =
+        predefinedItems ??
+        List<AssessmentItemModel>.generate(
+          itemCount,
+          (index) => createTestAssessmentItemModel(
+            id: '$id-item-$index',
+            sectionNumber: '$sectionNumber.${index + 1}',
+            selectedRating:
+                withRatings
+                    ? (ratingType ?? AssessmentRatingModel.meetsTarget())
+                    : null,
+          ),
+        );
+
+    return AssessmentSectionModel(
       id: id,
       sectionNumber: sectionNumber,
       title: 'Test Section $sectionNumber',
@@ -156,12 +268,53 @@ class TestAssessmentFixtures {
     );
   }
 
+  /// Create a test assessment form model with configurable sections
+  /// This is the method needed for the local data source tests
+  static AssessmentFormModel createTestAssessmentFormModel({
+    required String id,
+    int sectionCount = 2,
+    int itemsPerSection = 3,
+    bool withRatings = false,
+    bool isSubmitted = false,
+    DateTime? submissionDate,
+    String notes = 'Test assessment notes',
+    List<AssessmentSectionModel>? predefinedSections,
+  }) {
+    // Use predefined sections if provided, otherwise generate them
+    final sections =
+        predefinedSections ??
+        List<AssessmentSectionModel>.generate(
+          sectionCount,
+          (index) => createTestAssessmentSectionModel(
+            id: '$id-section-$index',
+            sectionNumber: '${index + 1}',
+            itemCount: itemsPerSection,
+            withRatings: withRatings,
+          ),
+        );
+
+    return AssessmentFormModel(
+      id: id,
+      assessorInfo: createTestAssessorInfoModel(),
+      geoLocation: createTestGeoLocationModel(),
+      facilityIdentification: createTestFacilityIdentificationModel(),
+      facilityServices: createTestFacilityServicesModel(),
+      sections: sections,
+      notes: notes,
+      isSubmitted: isSubmitted,
+      submissionDate:
+          isSubmitted ? (submissionDate ?? _defaultSubmissionDate) : null,
+    );
+  }
+
   /// Creates an assessment with a mix of different ratings
   /// (1 Meets, 1 Partially Meets, 2 Does Not Meet, 1 Don't Know, 1 Not Applicable)
   static AssessmentForm createMixedRatingsAssessment({
     required String id,
     int sectionCount = 2,
     int itemsPerSection = 3,
+    bool isSubmitted = false,
+    DateTime? submissionDate,
   }) {
     // Create specific sections with mixed ratings
     final section1Items = [
@@ -213,7 +366,69 @@ class TestAssessmentFixtures {
       ),
     ];
 
-    return createTestAssessmentForm(id: id, predefinedSections: sections);
+    return createTestAssessmentForm(
+      id: id, 
+      predefinedSections: sections,
+      isSubmitted: isSubmitted,
+      submissionDate: submissionDate,
+    );
+  }
+
+  /// Creates an assessment model with a mix of different ratings
+  static AssessmentFormModel createMixedRatingsAssessmentModel({
+    required String id,
+    bool isSubmitted = false,
+    DateTime? submissionDate,
+  }) {
+    // Convert the domain entity to a model
+    final entity = createMixedRatingsAssessment(
+      id: id,
+      isSubmitted: isSubmitted,
+      submissionDate: submissionDate,
+    );
+    
+    // Convert entity to model
+    return AssessmentFormModel(
+      id: entity.id,
+      assessorInfo: createTestAssessorInfoModel(),
+      geoLocation: createTestGeoLocationModel(),
+      facilityIdentification: createTestFacilityIdentificationModel(),
+      facilityServices: createTestFacilityServicesModel(),
+      sections: entity.sections.map((section) {
+        final items = section.items.map((item) {
+          final rating = item.selectedRating != null
+              ? AssessmentRatingModel(
+                  id: item.selectedRating!.id,
+                  value: item.selectedRating!.value,
+                  label: item.selectedRating!.label,
+                  description: item.selectedRating!.description,
+                )
+              : null;
+              
+          return AssessmentItemModel(
+            id: item.id,
+            sectionNumber: item.sectionNumber,
+            area: item.area,
+            meetsTargetDescription: item.meetsTargetDescription,
+            partiallyMeetsDescription: item.partiallyMeetsDescription,
+            doesNotMeetDescription: item.doesNotMeetDescription,
+            selectedRating: rating,
+            comment: item.comment,
+          );
+        }).toList();
+        
+        return AssessmentSectionModel(
+          id: section.id,
+          sectionNumber: section.sectionNumber,
+          title: section.title,
+          description: section.description,
+          items: items,
+        );
+      }).toList(),
+      notes: entity.notes,
+      isSubmitted: entity.isSubmitted,
+      submissionDate: entity.submissionDate,
+    );
   }
 
   /// Creates an assessment with 50% rated items (all Meets Target) and 50% unrated items
@@ -221,6 +436,8 @@ class TestAssessmentFixtures {
     required String id,
     int sectionCount = 2,
     int itemsPerSection = 3,
+    bool isSubmitted = false,
+    DateTime? submissionDate,
   }) {
     // Create sections with alternating rated and unrated items
     final sections = List<AssessmentSection>.generate(sectionCount, (
@@ -243,7 +460,70 @@ class TestAssessmentFixtures {
       );
     });
 
-    return createTestAssessmentForm(id: id, predefinedSections: sections);
+    return createTestAssessmentForm(
+      id: id, 
+      predefinedSections: sections,
+      isSubmitted: isSubmitted,
+      submissionDate: submissionDate,
+    );
+  }
+
+  /// Creates an assessment model with partially rated items
+  static AssessmentFormModel createPartiallyRatedAssessmentModel({
+    required String id,
+    bool isSubmitted = false,
+    DateTime? submissionDate,
+  }) {
+    // Convert entity to model
+    final entity = createPartiallyRatedAssessment(
+      id: id,
+      isSubmitted: isSubmitted,
+      submissionDate: submissionDate,
+    );
+    
+    final sections = entity.sections.map((section) {
+      final items = section.items.map((item) {
+        final rating = item.selectedRating != null
+            ? AssessmentRatingModel(
+                id: item.selectedRating!.id,
+                value: item.selectedRating!.value,
+                label: item.selectedRating!.label,
+                description: item.selectedRating!.description,
+              )
+            : null;
+        
+        return AssessmentItemModel(
+          id: item.id,
+          sectionNumber: item.sectionNumber,
+          area: item.area,
+          meetsTargetDescription: item.meetsTargetDescription,
+          partiallyMeetsDescription: item.partiallyMeetsDescription,
+          doesNotMeetDescription: item.doesNotMeetDescription,
+          selectedRating: rating,
+          comment: item.comment,
+        );
+      }).toList();
+      
+      return AssessmentSectionModel(
+        id: section.id,
+        sectionNumber: section.sectionNumber,
+        title: section.title,
+        description: section.description,
+        items: items,
+      );
+    }).toList();
+    
+    return AssessmentFormModel(
+      id: id,
+      assessorInfo: createTestAssessorInfoModel(),
+      geoLocation: createTestGeoLocationModel(),
+      facilityIdentification: createTestFacilityIdentificationModel(),
+      facilityServices: createTestFacilityServicesModel(),
+      sections: sections,
+      notes: 'Test assessment notes',
+      isSubmitted: isSubmitted,
+      submissionDate: submissionDate,
+    );
   }
 
   /// Creates an assessment marked as submitted
@@ -252,6 +532,18 @@ class TestAssessmentFixtures {
     DateTime? submissionDate,
   }) {
     return createMixedRatingsAssessment(id: id).copyWith(
+      isSubmitted: true,
+      submissionDate: submissionDate ?? DateTime(2024, 5, 1),
+    );
+  }
+
+  /// Creates an assessment model marked as submitted
+  static AssessmentFormModel createSubmittedAssessmentModel({
+    required String id,
+    DateTime? submissionDate,
+  }) {
+    return createMixedRatingsAssessmentModel(
+      id: id,
       isSubmitted: true,
       submissionDate: submissionDate ?? DateTime(2024, 5, 1),
     );
@@ -273,6 +565,24 @@ class TestAssessmentFixtures {
     );
 
     return createTestAssessmentForm(id: id, predefinedSections: emptySections);
+  }
+
+  /// Creates an assessment model with sections but no items
+  static AssessmentFormModel createAssessmentWithEmptySectionsModel({
+    required String id,
+    int sectionCount = 2,
+  }) {
+    final emptySections = List<AssessmentSectionModel>.generate(
+      sectionCount,
+      (index) => AssessmentSectionModel(
+        id: '$id-section-$index',
+        sectionNumber: '${index + 1}',
+        title: 'Empty Section ${index + 1}',
+        items: [],
+      ),
+    );
+
+    return createTestAssessmentFormModel(id: id, predefinedSections: emptySections);
   }
 
   /// Creates an assessment with a specific custom configuration for testing
@@ -333,6 +643,56 @@ class TestAssessmentFixtures {
     ];
 
     return createTestAssessmentForm(id: id, predefinedSections: sections);
+  }
+
+  /// Creates an assessment model with a specific custom configuration for testing
+  static AssessmentFormModel createCustomAssessmentModel({required String id}) {
+    // Convert entity to model
+    final entity = createCustomAssessment(id: id);
+    
+    final sections = entity.sections.map((section) {
+      final items = section.items.map((item) {
+        final rating = item.selectedRating != null
+            ? AssessmentRatingModel(
+                id: item.selectedRating!.id,
+                value: item.selectedRating!.value,
+                label: item.selectedRating!.label,
+                description: item.selectedRating!.description,
+              )
+            : null;
+        
+        return AssessmentItemModel(
+          id: item.id,
+          sectionNumber: item.sectionNumber,
+          area: item.area,
+          meetsTargetDescription: item.meetsTargetDescription,
+          partiallyMeetsDescription: item.partiallyMeetsDescription,
+          doesNotMeetDescription: item.doesNotMeetDescription,
+          selectedRating: rating,
+          comment: item.comment,
+        );
+      }).toList();
+      
+      return AssessmentSectionModel(
+        id: section.id,
+        sectionNumber: section.sectionNumber,
+        title: section.title,
+        description: section.description,
+        items: items,
+      );
+    }).toList();
+    
+    return AssessmentFormModel(
+      id: id,
+      assessorInfo: createTestAssessorInfoModel(),
+      geoLocation: createTestGeoLocationModel(),
+      facilityIdentification: createTestFacilityIdentificationModel(),
+      facilityServices: createTestFacilityServicesModel(),
+      sections: sections,
+      notes: 'Test assessment notes',
+      isSubmitted: false,
+      submissionDate: null,
+    );
   }
 
   /// Creates test assessment analysis instances for equality testing

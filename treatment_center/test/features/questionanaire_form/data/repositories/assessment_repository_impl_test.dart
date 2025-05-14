@@ -5,8 +5,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:treatment_center/core/error/failures.dart';
 import 'package:treatment_center/core/error/exceptions.dart';
 import 'package:treatment_center/core/network/network_info.dart';
-import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_local_data_source.dart';
-import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_remote_data_source.dart';
+import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_local_datasource.dart';
+import 'package:treatment_center/features/questionnaire_form/data/datasources/assessment_remote_datasource.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/assessment_form_model.dart';
 import 'package:treatment_center/features/questionnaire_form/data/repositories/assessment_repository_impl.dart';
 
@@ -215,35 +215,11 @@ void main() {
 
   group('saveAssessment', () {
     test(
-      'should save assessment locally only when offline and return success',
+      'should save assessment locally and return success',
       () async {
         // arrange
         when(
           mockLocalDataSource.saveAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-
-        // act
-        final result = await repository.saveAssessment(tAssessment);
-
-        // assert
-        verify(mockLocalDataSource.saveAssessment(any));
-        verify(mockNetworkInfo.isConnected);
-        verifyNever(mockRemoteDataSource.saveAssessment(any));
-        expect(result, const Right(true));
-      },
-    );
-
-    test(
-      'should save assessment locally and remotely when online and return success',
-      () async {
-        // arrange
-        when(
-          mockLocalDataSource.saveAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(
-          mockRemoteDataSource.saveAssessment(any),
         ).thenAnswer((_) async => true);
 
         // act
@@ -251,31 +227,6 @@ void main() {
 
         // assert
         verify(mockLocalDataSource.saveAssessment(any));
-        verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.saveAssessment(any));
-        expect(result, const Right(true));
-      },
-    );
-
-    test(
-      'should still succeed when local save succeeds but remote save fails',
-      () async {
-        // arrange
-        when(
-          mockLocalDataSource.saveAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(
-          mockRemoteDataSource.saveAssessment(any),
-        ).thenThrow(ServerException());
-
-        // act
-        final result = await repository.saveAssessment(tAssessment);
-
-        // assert
-        verify(mockLocalDataSource.saveAssessment(any));
-        verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.saveAssessment(any));
         expect(result, const Right(true));
       },
     );
@@ -333,35 +284,11 @@ void main() {
 
   group('deleteAssessment', () {
     test(
-      'should delete assessment locally only when offline and return success',
+      'should delete assessment locally and return success',
       () async {
         // arrange
         when(
           mockLocalDataSource.deleteAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-
-        // act
-        final result = await repository.deleteAssessment(tAssessmentId);
-
-        // assert
-        verify(mockLocalDataSource.deleteAssessment(tAssessmentId));
-        verify(mockNetworkInfo.isConnected);
-        verifyNever(mockRemoteDataSource.deleteAssessment(any));
-        expect(result, const Right(true));
-      },
-    );
-
-    test(
-      'should delete assessment locally and remotely when online and return success',
-      () async {
-        // arrange
-        when(
-          mockLocalDataSource.deleteAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(
-          mockRemoteDataSource.deleteAssessment(any),
         ).thenAnswer((_) async => true);
 
         // act
@@ -369,31 +296,6 @@ void main() {
 
         // assert
         verify(mockLocalDataSource.deleteAssessment(tAssessmentId));
-        verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.deleteAssessment(tAssessmentId));
-        expect(result, const Right(true));
-      },
-    );
-
-    test(
-      'should still succeed when local delete succeeds but remote delete fails',
-      () async {
-        // arrange
-        when(
-          mockLocalDataSource.deleteAssessment(any),
-        ).thenAnswer((_) async => true);
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(
-          mockRemoteDataSource.deleteAssessment(any),
-        ).thenThrow(ServerException());
-
-        // act
-        final result = await repository.deleteAssessment(tAssessmentId);
-
-        // assert
-        verify(mockLocalDataSource.deleteAssessment(tAssessmentId));
-        verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.deleteAssessment(tAssessmentId));
         expect(result, const Right(true));
       },
     );
@@ -463,7 +365,7 @@ void main() {
 
       // assert
       verify(mockNetworkInfo.isConnected);
-      verifyNever(mockRemoteDataSource.submitAssessmentViaEmail(any, any));
+      verifyNever(mockRemoteDataSource.submitAssessmentViaEmail(any, any, exportFormat: anyNamed('exportFormat')));
       expect(result.isLeft(), true);
       expect((result as Left).value, isA<ConnectionFailure>());
       result.fold((failure) {
@@ -481,7 +383,13 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(
-          mockRemoteDataSource.submitAssessmentViaEmail(any, any),
+          mockRemoteDataSource.submitAssessmentViaEmail(
+            any, 
+            any, 
+            exportFormat: anyNamed('exportFormat'),
+            subject: anyNamed('subject'),
+            body: anyNamed('body'),
+          ),
         ).thenAnswer((_) async => true);
 
         // act
@@ -492,7 +400,11 @@ void main() {
 
         // assert
         verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.submitAssessmentViaEmail(any, tEmail));
+        verify(mockRemoteDataSource.submitAssessmentViaEmail(
+          any, 
+          tEmail, 
+          exportFormat: 'pdf',
+        ));
         expect(result, const Right(true));
       },
     );
@@ -503,7 +415,11 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(
-          mockRemoteDataSource.submitAssessmentViaEmail(any, any),
+          mockRemoteDataSource.submitAssessmentViaEmail(
+            any, 
+            any, 
+            exportFormat: anyNamed('exportFormat'),
+          ),
         ).thenThrow(ServerException());
 
         // act
@@ -514,7 +430,11 @@ void main() {
 
         // assert
         verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.submitAssessmentViaEmail(any, tEmail));
+        verify(mockRemoteDataSource.submitAssessmentViaEmail(
+          any, 
+          tEmail, 
+          exportFormat: 'pdf',
+        ));
         expect(result.isLeft(), true);
         expect((result as Left).value, isA<ServerFailure>());
 
@@ -534,7 +454,11 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(
-          mockRemoteDataSource.submitAssessmentViaEmail(any, any),
+          mockRemoteDataSource.submitAssessmentViaEmail(
+            any, 
+            any, 
+            exportFormat: anyNamed('exportFormat'),
+          ),
         ).thenThrow(EmailException());
 
         // act
@@ -545,7 +469,11 @@ void main() {
 
         // assert
         verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.submitAssessmentViaEmail(any, tEmail));
+        verify(mockRemoteDataSource.submitAssessmentViaEmail(
+          any, 
+          tEmail, 
+          exportFormat: 'pdf',
+        ));
         expect(result.isLeft(), true);
         expect((result as Left).value, isA<EmailFailure>());
 
@@ -566,7 +494,11 @@ void main() {
         final tException = Exception('Unexpected error');
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(
-          mockRemoteDataSource.submitAssessmentViaEmail(any, any),
+          mockRemoteDataSource.submitAssessmentViaEmail(
+            any, 
+            any, 
+            exportFormat: anyNamed('exportFormat'),
+          ),
         ).thenThrow(tException);
 
         // act
@@ -577,7 +509,11 @@ void main() {
 
         // assert
         verify(mockNetworkInfo.isConnected);
-        verify(mockRemoteDataSource.submitAssessmentViaEmail(any, tEmail));
+        verify(mockRemoteDataSource.submitAssessmentViaEmail(
+          any, 
+          tEmail, 
+          exportFormat: 'pdf',
+        ));
         expect(result.isLeft(), true);
         expect((result as Left).value, isA<UnexpectedFailure>());
         result.fold((failure) {
