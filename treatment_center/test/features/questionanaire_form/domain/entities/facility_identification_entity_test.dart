@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_identification.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_identification_entity.dart';
 
 void main() {
   group('FacilityIdentification', () {
     test('should create a valid FacilityIdentification instance', () {
       // Arrange & Act
-      final facilityIdentification = FacilityIdentification(
+      final facilityIdentification = FacilityIdentificationEntity(
         facilityCode: 'F12345',
         facilityName: 'Bwera Hospital',
         managingAuthority: ManagingAuthorityType.government,
@@ -18,26 +18,38 @@ void main() {
         facilityType: FacilityType.screeningAndTemporaryIsolation,
         existingFacilityType: ExistingFacilityType.firstReferralHospital,
       );
-      
+
       // Assert
       expect(facilityIdentification.facilityCode, 'F12345');
       expect(facilityIdentification.facilityName, 'Bwera Hospital');
-      expect(facilityIdentification.managingAuthority, ManagingAuthorityType.government);
+      expect(
+        facilityIdentification.managingAuthority,
+        ManagingAuthorityType.government,
+      );
       expect(facilityIdentification.otherManagingAuthority, isNull);
       expect(facilityIdentification.directorName, 'Dr. Jane Smith');
       expect(facilityIdentification.directorPhone, '+256789123456');
       expect(facilityIdentification.directorEmail, 'jane.smith@bwera.org');
       expect(facilityIdentification.respondentName, 'John Doe');
       expect(facilityIdentification.respondentPosition, 'IPC Focal Person');
-      expect(facilityIdentification.structureType, FacilityStructureType.permanent);
-      expect(facilityIdentification.facilityType, FacilityType.screeningAndTemporaryIsolation);
-      expect(facilityIdentification.existingFacilityType, ExistingFacilityType.firstReferralHospital);
+      expect(
+        facilityIdentification.structureType,
+        FacilityStructureType.permanent,
+      );
+      expect(
+        facilityIdentification.facilityType,
+        FacilityType.screeningAndTemporaryIsolation,
+      );
+      expect(
+        facilityIdentification.existingFacilityType,
+        ExistingFacilityType.firstReferralHospital,
+      );
       expect(facilityIdentification.otherExistingFacilityType, isNull);
     });
-    
+
     test('should create an instance with "other" managing authority', () {
       // Arrange & Act
-      final facilityIdentification = FacilityIdentification(
+      final facilityIdentification = FacilityIdentificationEntity(
         facilityCode: 'F67890',
         facilityName: 'Community Treatment Center',
         managingAuthority: ManagingAuthorityType.other,
@@ -50,16 +62,22 @@ void main() {
         structureType: FacilityStructureType.temporaryMediumTerm,
         facilityType: FacilityType.standaloneTreatmentCenter,
       );
-      
+
       // Assert
-      expect(facilityIdentification.managingAuthority, ManagingAuthorityType.other);
-      expect(facilityIdentification.otherManagingAuthority, 'International NGO Consortium');
+      expect(
+        facilityIdentification.managingAuthority,
+        ManagingAuthorityType.other,
+      );
+      expect(
+        facilityIdentification.otherManagingAuthority,
+        'International NGO Consortium',
+      );
       expect(facilityIdentification.existingFacilityType, isNull);
     });
-    
+
     test('should create an instance with "other" existing facility type', () {
       // Arrange & Act
-      final facilityIdentification = FacilityIdentification(
+      final facilityIdentification = FacilityIdentificationEntity(
         facilityCode: 'F67890',
         facilityName: 'Specialized Treatment Center',
         managingAuthority: ManagingAuthorityType.university,
@@ -73,15 +91,21 @@ void main() {
         existingFacilityType: ExistingFacilityType.other,
         otherExistingFacilityType: 'Research and Training Hospital',
       );
-      
+
       // Assert
-      expect(facilityIdentification.existingFacilityType, ExistingFacilityType.other);
-      expect(facilityIdentification.otherExistingFacilityType, 'Research and Training Hospital');
+      expect(
+        facilityIdentification.existingFacilityType,
+        ExistingFacilityType.other,
+      );
+      expect(
+        facilityIdentification.otherExistingFacilityType,
+        'Research and Training Hospital',
+      );
     });
-    
+
     test('two instances with the same values should be equal', () {
       // Arrange
-      final facilityIdentification1 = FacilityIdentification(
+      final facilityIdentification1 = FacilityIdentificationEntity(
         facilityCode: 'F12345',
         facilityName: 'Bwera Hospital',
         managingAuthority: ManagingAuthorityType.government,
@@ -94,8 +118,8 @@ void main() {
         facilityType: FacilityType.screeningAndTemporaryIsolation,
         existingFacilityType: ExistingFacilityType.firstReferralHospital,
       );
-      
-      final facilityIdentification2 = FacilityIdentification(
+
+      final facilityIdentification2 = FacilityIdentificationEntity(
         facilityCode: 'F12345',
         facilityName: 'Bwera Hospital',
         managingAuthority: ManagingAuthorityType.government,
@@ -108,7 +132,7 @@ void main() {
         facilityType: FacilityType.screeningAndTemporaryIsolation,
         existingFacilityType: ExistingFacilityType.firstReferralHospital,
       );
-      
+
       // Act & Assert
       expect(facilityIdentification1, equals(facilityIdentification2));
     });

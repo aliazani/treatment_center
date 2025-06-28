@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating_entity.dart';
 
 void main() {
   group('AssessmentRating', () {
@@ -7,7 +7,7 @@ void main() {
       'factory meetsTarget should create a predefined rating with value 3',
       () {
         // Arrange & Act
-        final rating = AssessmentRating.meetsTarget();
+        final rating = AssessmentRatingEntity.meetsTarget();
 
         // Assert
         expect(rating.id, 'meets_target');
@@ -21,7 +21,7 @@ void main() {
       'factory partiallyMeetsTarget should create a predefined rating with value 2',
       () {
         // Arrange & Act
-        final rating = AssessmentRating.partiallyMeetsTarget();
+        final rating = AssessmentRatingEntity.partiallyMeetsTarget();
 
         // Assert
         expect(rating.id, 'partially_meets');
@@ -35,7 +35,7 @@ void main() {
       'factory doesNotMeetTarget should create a predefined rating with value 1',
       () {
         // Arrange & Act
-        final rating = AssessmentRating.doesNotMeetTarget();
+        final rating = AssessmentRatingEntity.doesNotMeetTarget();
 
         // Assert
         expect(rating.id, 'does_not_meet');
@@ -47,7 +47,7 @@ void main() {
 
     test('factory dontKnow should create a special rating with value 0', () {
       // Arrange & Act
-      final rating = AssessmentRating.dontKnow();
+      final rating = AssessmentRatingEntity.dontKnow();
 
       // Assert
       expect(rating.id, 'dont_know');
@@ -60,7 +60,7 @@ void main() {
       'factory notApplicable should create a special rating with value -1',
       () {
         // Arrange & Act
-        final rating = AssessmentRating.notApplicable();
+        final rating = AssessmentRatingEntity.notApplicable();
 
         // Assert
         expect(rating.id, 'not_applicable');
@@ -73,7 +73,7 @@ void main() {
     // Optional: Add a test for the custom constructor
     test('custom constructor creates rating with specified values', () {
       // Arrange & Act
-      const rating = AssessmentRating(
+      const rating = AssessmentRatingEntity(
         id: 'custom_id',
         value: 5,
         label: 'Custom Label',
@@ -89,8 +89,8 @@ void main() {
 
     test('should be equal when all properties are equal', () {
       // Arrange
-      final rating1 = AssessmentRating.meetsTarget();
-      final rating2 = AssessmentRating.meetsTarget();
+      final rating1 = AssessmentRatingEntity.meetsTarget();
+      final rating2 = AssessmentRatingEntity.meetsTarget();
 
       // Assert
       expect(rating1, equals(rating2));
@@ -98,8 +98,8 @@ void main() {
 
     test('should not be equal when any property differs', () {
       // Arrange
-      final rating1 = AssessmentRating.meetsTarget();
-      final rating2 = AssessmentRating.partiallyMeetsTarget();
+      final rating1 = AssessmentRatingEntity.meetsTarget();
+      final rating2 = AssessmentRatingEntity.partiallyMeetsTarget();
 
       // Assert
       expect(rating1, isNot(equals(rating2)));

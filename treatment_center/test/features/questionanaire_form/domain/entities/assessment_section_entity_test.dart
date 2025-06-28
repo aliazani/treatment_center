@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_section.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item_entity.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating_entity.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_section_entity.dart';
 
 void main() {
   // Sample assessment items for testing
-  final item1 = AssessmentItem(
+  final item1 = AssessmentItemEntity(
     id: 'item1',
     sectionNumber: '2.1.1',
     area: 'Health care facility entrances',
@@ -14,20 +14,20 @@ void main() {
     doesNotMeetDescription: 'Description 3',
   );
 
-  final item2 = AssessmentItem(
+  final item2 = AssessmentItemEntity(
     id: 'item2',
     sectionNumber: '2.1.2',
     area: 'Area distribution',
     meetsTargetDescription: 'Description 1',
     partiallyMeetsDescription: 'Description 2',
     doesNotMeetDescription: 'Description 3',
-    selectedRating: AssessmentRating.meetsTarget(),
+    selectedRating: AssessmentRatingEntity.meetsTarget(),
   );
 
   group('AssessmentSection', () {
     test('should create a valid AssessmentSection', () {
       // Arrange & Act
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -44,7 +44,7 @@ void main() {
 
     test('should correctly calculate completion status', () {
       // Arrange
-      final incompletedSection = AssessmentSection(
+      final incompletedSection = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -52,10 +52,10 @@ void main() {
       );
 
       final completedItem1 = item1.copyWith(
-        selectedRating: AssessmentRating.partiallyMeetsTarget(),
+        selectedRating: AssessmentRatingEntity.partiallyMeetsTarget(),
       );
 
-      final completedSection = AssessmentSection(
+      final completedSection = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -72,7 +72,7 @@ void main() {
 
     test('copyWith should create a new instance with updated fields', () {
       // Arrange
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -95,7 +95,7 @@ void main() {
     });
 
     test('should create a valid AssessmentSection with description', () {
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -107,7 +107,7 @@ void main() {
     });
 
     test('should handle empty items list', () {
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -123,21 +123,21 @@ void main() {
     });
 
     test('should support equality comparison', () {
-      final section1 = AssessmentSection(
+      final section1 = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
         items: [item1, item2],
       );
 
-      final section2 = AssessmentSection(
+      final section2 = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
         items: [item1, item2],
       );
 
-      final differentSection = AssessmentSection(
+      final differentSection = AssessmentSectionEntity(
         id: 'section2',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -149,7 +149,7 @@ void main() {
     });
 
     test('copyWith should update id and sectionNumber', () {
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -166,7 +166,7 @@ void main() {
     });
 
     test('copyWith should not set description to null', () {
-      final section = AssessmentSection(
+      final section = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',
@@ -181,7 +181,7 @@ void main() {
 
     test('should correctly handle completion status edge cases', () {
       // Create items without ratings
-      final unratedItem1 = AssessmentItem(
+      final unratedItem1 = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -190,7 +190,7 @@ void main() {
         doesNotMeetDescription: 'Description 3',
       );
 
-      final unratedItem2 = AssessmentItem(
+      final unratedItem2 = AssessmentItemEntity(
         id: 'item2',
         sectionNumber: '2.1.2',
         area: 'Area distribution',
@@ -200,7 +200,7 @@ void main() {
       );
 
       // Section with all unrated items
-      final allUnratedSection = AssessmentSection(
+      final allUnratedSection = AssessmentSectionEntity(
         id: 'section1',
         sectionNumber: '2.1',
         title: 'Facility accesses and flows',

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessor_info.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessor_info_entity.dart';
 
 void main() {
   group('AssessorInfo', () {
@@ -7,7 +7,7 @@ void main() {
 
     test('should create a valid AssessorInfo instance', () {
       // Arrange & Act
-      final assessorInfo = AssessorInfo(
+      final assessorInfo = AssessorInfoEntity(
         name: 'John Doe',
         email: 'john.doe@example.com',
         phoneNumber: '+1234567890',
@@ -23,14 +23,14 @@ void main() {
 
     test('two instances with the same values should be equal', () {
       // Arrange
-      final assessorInfo1 = AssessorInfo(
+      final assessorInfo1 = AssessorInfoEntity(
         name: 'John Doe',
         email: 'john.doe@example.com',
         phoneNumber: '+1234567890',
         assessmentDate: testDate,
       );
 
-      final assessorInfo2 = AssessorInfo(
+      final assessorInfo2 = AssessorInfoEntity(
         name: 'John Doe',
         email: 'john.doe@example.com',
         phoneNumber: '+1234567890',
@@ -43,14 +43,14 @@ void main() {
 
     test('two instances with different values should not be equal', () {
       // Arrange
-      final assessorInfo1 = AssessorInfo(
+      final assessorInfo1 = AssessorInfoEntity(
         name: 'John Doe',
         email: 'john.doe@example.com',
         phoneNumber: '+1234567890',
         assessmentDate: testDate,
       );
 
-      final assessorInfo2 = AssessorInfo(
+      final assessorInfo2 = AssessorInfoEntity(
         name: 'Jane Smith',
         email: 'jane.smith@example.com',
         phoneNumber: '+0987654321',

@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item_entity.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_rating_entity.dart';
 
 void main() {
-  final testRating = AssessmentRating.meetsTarget();
+  final testRating = AssessmentRatingEntity.meetsTarget();
 
   group('AssessmentItem', () {
     test('should create a valid AssessmentItem', () {
       // Arrange & Act
-      final item = AssessmentItem(
+      final item = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -42,7 +42,7 @@ void main() {
 
     test('should create a valid AssessmentItem with optional fields', () {
       // Arrange & Act
-      final item = AssessmentItem(
+      final item = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -63,7 +63,7 @@ void main() {
 
     test('should support equality comparison', () {
       // Arrange
-      final item1 = AssessmentItem(
+      final item1 = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -75,7 +75,7 @@ void main() {
             'There is only one common entrance for both staff and patients',
       );
 
-      final item2 = AssessmentItem(
+      final item2 = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -93,7 +93,7 @@ void main() {
 
     test('copyWith should create a new instance with updated fields', () {
       // Arrange
-      final item = AssessmentItem(
+      final item = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Health care facility entrances',
@@ -121,10 +121,10 @@ void main() {
 
     test('copyWith should allow changing from one rating to another', () {
       // Arrange
-      final initialRating = AssessmentRating.meetsTarget();
-      final newRating = AssessmentRating.partiallyMeetsTarget();
+      final initialRating = AssessmentRatingEntity.meetsTarget();
+      final newRating = AssessmentRatingEntity.partiallyMeetsTarget();
 
-      final item = AssessmentItem(
+      final item = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Area',
@@ -144,14 +144,14 @@ void main() {
 
     test('copyWith should not allow setting rating to null', () {
       // Arrange
-      final item = AssessmentItem(
+      final item = AssessmentItemEntity(
         id: 'item1',
         sectionNumber: '2.1.1',
         area: 'Area',
         meetsTargetDescription: 'Description',
         partiallyMeetsDescription: 'Description',
         doesNotMeetDescription: 'Description',
-        selectedRating: AssessmentRating.meetsTarget(),
+        selectedRating: AssessmentRatingEntity.meetsTarget(),
       );
 
       // Act - explicitly set to null
