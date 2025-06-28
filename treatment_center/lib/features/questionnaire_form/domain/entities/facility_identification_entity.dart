@@ -32,7 +32,7 @@ enum ExistingFacilityType {
 }
 
 /// Represents identification information of the healthcare facility
-class FacilityIdentification extends Equatable {
+class FacilityIdentificationEntity extends Equatable {
   /// Facility code or ID
   final String facilityCode;
 
@@ -74,7 +74,7 @@ class FacilityIdentification extends Equatable {
   /// Description if "other" is selected for existing facility type
   final String? otherExistingFacilityType;
 
-  const FacilityIdentification({
+  const FacilityIdentificationEntity({
     required this.facilityCode,
     required this.facilityName,
     required this.managingAuthority,

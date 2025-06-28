@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Represents information about the person conducting the assessment
-class AssessorInfo extends Equatable {
+class AssessorInfoEntity extends Equatable {
   /// Name of the person conducting the assessment
   final String name;
 
@@ -14,7 +14,7 @@ class AssessorInfo extends Equatable {
   /// Date when the assessment was conducted
   final DateTime assessmentDate;
 
-  const AssessorInfo({
+  const AssessorInfoEntity({
     required this.name,
     required this.email,
     required this.phoneNumber,

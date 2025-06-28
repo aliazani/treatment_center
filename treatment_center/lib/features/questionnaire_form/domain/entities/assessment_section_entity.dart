@@ -1,24 +1,24 @@
 import 'package:equatable/equatable.dart';
-import 'assessment_item.dart';
+import 'assessment_item_entity.dart';
 
 /// Represents a section within the assessment form
-class AssessmentSection extends Equatable {
+class AssessmentSectionEntity extends Equatable {
   /// Unique identifier for the section
   final String id;
-  
+
   /// The section number (e.g., "2.1", "3.4")
   final String sectionNumber;
-  
+
   /// The title of the section
   final String title;
-  
+
   /// Description or instructions for this section
   final String? description;
-  
-  /// List of assessment items in this section
-  final List<AssessmentItem> items;
 
-  const AssessmentSection({
+  /// List of assessment items in this section
+  final List<AssessmentItemEntity> items;
+
+  const AssessmentSectionEntity({
     required this.id,
     required this.sectionNumber,
     required this.title,
@@ -27,14 +27,14 @@ class AssessmentSection extends Equatable {
   });
 
   /// Creates a copy of this AssessmentSection with the given fields replaced
-  AssessmentSection copyWith({
+  AssessmentSectionEntity copyWith({
     String? id,
     String? sectionNumber,
     String? title,
     String? description,
-    List<AssessmentItem>? items,
+    List<AssessmentItemEntity>? items,
   }) {
-    return AssessmentSection(
+    return AssessmentSectionEntity(
       id: id ?? this.id,
       sectionNumber: sectionNumber ?? this.sectionNumber,
       title: title ?? this.title,
@@ -42,12 +42,13 @@ class AssessmentSection extends Equatable {
       items: items ?? this.items,
     );
   }
-  
+
   /// Get completion status for this section
   bool get isComplete => items.every((item) => item.selectedRating != null);
-  
+
   /// Get the count of completed items
-  int get completedItemsCount => items.where((item) => item.selectedRating != null).length;
+  int get completedItemsCount =>
+      items.where((item) => item.selectedRating != null).length;
 
   @override
   List<Object?> get props => [id, sectionNumber, title, description, items];
