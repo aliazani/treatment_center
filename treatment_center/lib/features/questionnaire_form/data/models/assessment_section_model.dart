@@ -1,7 +1,7 @@
-import '../../domain/entities/assessment_section.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_section_entity.dart';
 import 'assessment_item_model.dart';
 
-class AssessmentSectionModel extends AssessmentSection{
+class AssessmentSectionModel extends AssessmentSectionEntity {
   const AssessmentSectionModel({
     required super.id,
     required super.sectionNumber,
@@ -16,21 +16,23 @@ class AssessmentSectionModel extends AssessmentSection{
       sectionNumber: json['section_number'],
       title: json['title'],
       description: json['description'],
-      items: (json['items'] as List)
-          .map((item) => AssessmentItemModel.fromJson(item))
-          .toList(),
+      items:
+          (json['items'] as List)
+              .map((item) => AssessmentItemModel.fromJson(item))
+              .toList(),
     );
   }
 
-  factory AssessmentSectionModel.fromEntity(AssessmentSection section) {
+  factory AssessmentSectionModel.fromEntity(AssessmentSectionEntity section) {
     return AssessmentSectionModel(
       id: section.id,
       sectionNumber: section.sectionNumber,
       title: section.title,
       description: section.description,
-      items: section.items
-          .map((item) => AssessmentItemModel.fromEntity(item))
-          .toList(),
+      items:
+          section.items
+              .map((item) => AssessmentItemModel.fromEntity(item))
+              .toList(),
     );
   }
 
@@ -40,9 +42,8 @@ class AssessmentSectionModel extends AssessmentSection{
       'section_number': sectionNumber,
       'title': title,
       'description': description,
-      'items': items
-          .map((item) => (item as AssessmentItemModel).toJson())
-          .toList(),
+      'items':
+          items.map((item) => (item as AssessmentItemModel).toJson()).toList(),
     };
   }
 }

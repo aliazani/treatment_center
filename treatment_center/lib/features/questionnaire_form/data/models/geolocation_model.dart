@@ -1,6 +1,6 @@
-import '../../domain/entities/geolocation.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/geolocation_entity.dart';
 
-class GeoLocationModel extends GeoLocation {
+class GeoLocationModel extends GeoLocationEntity {
   const GeoLocationModel({
     required super.country,
     required super.regionProvince,
@@ -21,7 +21,7 @@ class GeoLocationModel extends GeoLocation {
     );
   }
 
-  factory GeoLocationModel.fromEntity(GeoLocation location) {
+  factory GeoLocationModel.fromEntity(GeoLocationEntity location) {
     return GeoLocationModel(
       country: location.country,
       regionProvince: location.regionProvince,

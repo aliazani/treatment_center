@@ -1,6 +1,6 @@
-import '../../domain/entities/assessor_info.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessor_info_entity.dart';
 
-class AssessorInfoModel extends AssessorInfo {
+class AssessorInfoModel extends AssessorInfoEntity {
   const AssessorInfoModel({
     required super.name,
     required super.email,
@@ -17,7 +17,7 @@ class AssessorInfoModel extends AssessorInfo {
     );
   }
 
-  factory AssessorInfoModel.fromEntity(AssessorInfo info) {
+  factory AssessorInfoModel.fromEntity(AssessorInfoEntity info) {
     return AssessorInfoModel(
       name: info.name,
       email: info.email,

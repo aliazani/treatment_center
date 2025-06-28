@@ -1,6 +1,6 @@
-import '../../domain/entities/facility_services.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_services_entity.dart';
 
-class FacilityServicesModel extends FacilityServices {
+class FacilityServicesModel extends FacilityServicesEntity {
   const FacilityServicesModel({
     required super.hasOutpatientServices,
     required super.hasInpatientServices,
@@ -21,7 +21,7 @@ class FacilityServicesModel extends FacilityServices {
     );
   }
 
-  factory FacilityServicesModel.fromEntity(FacilityServices services) {
+  factory FacilityServicesModel.fromEntity(FacilityServicesEntity services) {
     return FacilityServicesModel(
       hasOutpatientServices: services.hasOutpatientServices,
       hasInpatientServices: services.hasInpatientServices,

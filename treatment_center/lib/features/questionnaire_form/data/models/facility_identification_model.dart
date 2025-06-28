@@ -1,6 +1,6 @@
-import '../../domain/entities/facility_identification.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_identification_entity.dart';
 
-class FacilityIdentificationModel extends FacilityIdentification {
+class FacilityIdentificationModel extends FacilityIdentificationEntity {
   const FacilityIdentificationModel({
     required super.facilityCode,
     required super.facilityName,
@@ -40,7 +40,7 @@ class FacilityIdentificationModel extends FacilityIdentification {
   }
 
   factory FacilityIdentificationModel.fromEntity(
-    FacilityIdentification identification,
+    FacilityIdentificationEntity identification,
   ) {
     return FacilityIdentificationModel(
       facilityCode: identification.facilityCode,

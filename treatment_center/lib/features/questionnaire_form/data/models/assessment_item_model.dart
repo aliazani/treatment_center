@@ -1,7 +1,7 @@
-import '../../domain/entities/assessment_item.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_item_entity.dart';
 import 'assessment_rating_model.dart';
 
-class AssessmentItemModel extends AssessmentItem {
+class AssessmentItemModel extends AssessmentItemEntity {
   const AssessmentItemModel({
     required super.id,
     required super.sectionNumber,
@@ -21,14 +21,15 @@ class AssessmentItemModel extends AssessmentItem {
       meetsTargetDescription: json['meets_target_description'],
       partiallyMeetsDescription: json['partially_meets_description'],
       doesNotMeetDescription: json['does_not_meet_description'],
-      selectedRating: json['selected_rating'] != null
-          ? AssessmentRatingModel.fromJson(json['selected_rating'])
-          : null,
+      selectedRating:
+          json['selected_rating'] != null
+              ? AssessmentRatingModel.fromJson(json['selected_rating'])
+              : null,
       comment: json['comment'],
     );
   }
 
-  factory AssessmentItemModel.fromEntity(AssessmentItem item) {
+  factory AssessmentItemModel.fromEntity(AssessmentItemEntity item) {
     return AssessmentItemModel(
       id: item.id,
       sectionNumber: item.sectionNumber,
@@ -36,9 +37,10 @@ class AssessmentItemModel extends AssessmentItem {
       meetsTargetDescription: item.meetsTargetDescription,
       partiallyMeetsDescription: item.partiallyMeetsDescription,
       doesNotMeetDescription: item.doesNotMeetDescription,
-      selectedRating: item.selectedRating != null
-          ? AssessmentRatingModel.fromEntity(item.selectedRating!)
-          : null,
+      selectedRating:
+          item.selectedRating != null
+              ? AssessmentRatingModel.fromEntity(item.selectedRating!)
+              : null,
       comment: item.comment,
     );
   }
@@ -51,9 +53,10 @@ class AssessmentItemModel extends AssessmentItem {
       'meets_target_description': meetsTargetDescription,
       'partially_meets_description': partiallyMeetsDescription,
       'does_not_meet_description': doesNotMeetDescription,
-      'selected_rating': selectedRating != null
-          ? (selectedRating as AssessmentRatingModel).toJson()
-          : null,
+      'selected_rating':
+          selectedRating != null
+              ? (selectedRating as AssessmentRatingModel).toJson()
+              : null,
       'comment': comment,
     };
   }
