@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/geolocation_model.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/geolocation.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/geolocation_entity.dart';
 
 void main() {
   final tGeoLocationModel = GeoLocationModel(
@@ -59,40 +59,45 @@ void main() {
 
   group('GeoLocationModel', () {
     test('should be a subclass of GeoLocation entity', () {
-      // assert
-      expect(tGeoLocationModel, isA<GeoLocation>());
+      // Arrange
+      // Act
+      // Assert
+      expect(tGeoLocationModel, isA<GeoLocationEntity>());
     });
 
     group('fromJson', () {
       test('should return a valid model for urban when the JSON is valid', () {
-        // arrange
+        // Arrange
         final Map<String, dynamic> jsonMap = tGeoLocationJson;
-        // act
+        // Act
         final result = GeoLocationModel.fromJson(jsonMap);
-        // assert
+        // Assert
         expect(result, tGeoLocationModel);
       });
 
-      test('should return a valid model for peri-urban when the JSON is valid', () {
-        // arrange
-        final Map<String, dynamic> jsonMap = tGeoLocationJsonPeriUrban;
-        // act
-        final result = GeoLocationModel.fromJson(jsonMap);
-        // assert
-        expect(result, tGeoLocationModelPeriUrban);
-      });
+      test(
+        'should return a valid model for peri-urban when the JSON is valid',
+        () {
+          // Arrange
+          final Map<String, dynamic> jsonMap = tGeoLocationJsonPeriUrban;
+          // Act
+          final result = GeoLocationModel.fromJson(jsonMap);
+          // Assert
+          expect(result, tGeoLocationModelPeriUrban);
+        },
+      );
 
       test('should return a valid model for rural when the JSON is valid', () {
-        // arrange
+        // Arrange
         final Map<String, dynamic> jsonMap = tGeoLocationJsonRural;
-        // act
+        // Act
         final result = GeoLocationModel.fromJson(jsonMap);
-        // assert
+        // Assert
         expect(result, tGeoLocationModelRural);
       });
 
       test('should correctly parse the location type enum', () {
-        // arrange
+        // Arrange
         final Map<String, dynamic> jsonMap = {
           'country': 'United States',
           'region_province': 'California',
@@ -101,28 +106,30 @@ void main() {
           'address_or_coordinates': '123 Main St',
           'location_type': 0, // urban
         };
-        // act
+        // Act
         final result = GeoLocationModel.fromJson(jsonMap);
-        // assert
+        // Assert
         expect(result.locationType, FacilityLocationType.urban);
       });
     });
 
     group('toJson', () {
       test('should return a JSON map containing the proper data', () {
-        // act
+        // Arrange
+        // Act
         final result = tGeoLocationModel.toJson();
-        // assert
+        // Assert
         expect(result, tGeoLocationJson);
       });
 
       test('should correctly convert the location type enum to integer', () {
-        // act
+        // Arrange
+        // Act
         final urbanResult = tGeoLocationModel.toJson();
         final periUrbanResult = tGeoLocationModelPeriUrban.toJson();
         final ruralResult = tGeoLocationModelRural.toJson();
-        
-        // assert
+
+        // Assert
         expect(urbanResult['location_type'], 0);
         expect(periUrbanResult['location_type'], 1);
         expect(ruralResult['location_type'], 2);
@@ -131,8 +138,8 @@ void main() {
 
     group('fromEntity', () {
       test('should return a valid model when converting from entity', () {
-        // arrange
-        final entity = GeoLocation(
+        // Arrange
+        final entity = GeoLocationEntity(
           country: 'United States',
           regionProvince: 'California',
           district: 'San Francisco',
@@ -140,9 +147,9 @@ void main() {
           addressOrCoordinates: '123 Main St',
           locationType: FacilityLocationType.urban,
         );
-        // act
+        // Act
         final result = GeoLocationModel.fromEntity(entity);
-        // assert
+        // Assert
         expect(result, tGeoLocationModel);
         expect(result.country, entity.country);
         expect(result.regionProvince, entity.regionProvince);

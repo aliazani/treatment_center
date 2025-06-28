@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/facility_services_model.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_services.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/facility_services_entity.dart';
 
 void main() {
   final tFacilityServicesModel = FacilityServicesModel(
@@ -40,31 +40,39 @@ void main() {
 
   group('FacilityServicesModel', () {
     test('should be a subclass of FacilityServices entity', () {
-      // assert
-      expect(tFacilityServicesModel, isA<FacilityServices>());
+      // Arrange
+      // Act
+      // Assert
+      expect(tFacilityServicesModel, isA<FacilityServicesEntity>());
     });
 
     group('fromJson', () {
-      test('should return a valid model when the JSON is valid with all fields', () {
-        // arrange
-        final Map<String, dynamic> jsonMap = tFacilityServicesJson;
-        // act
-        final result = FacilityServicesModel.fromJson(jsonMap);
-        // assert
-        expect(result, tFacilityServicesModel);
-      });
+      test(
+        'should return a valid model when the JSON is valid with all fields',
+        () {
+          // Arrange
+          final Map<String, dynamic> jsonMap = tFacilityServicesJson;
+          // Act
+          final result = FacilityServicesModel.fromJson(jsonMap);
+          // Assert
+          expect(result, tFacilityServicesModel);
+        },
+      );
 
-      test('should return a valid model when the JSON has no inpatient services', () {
-        // arrange
-        final Map<String, dynamic> jsonMap = tFacilityServicesJsonNoInpatient;
-        // act
-        final result = FacilityServicesModel.fromJson(jsonMap);
-        // assert
-        expect(result, tFacilityServicesModelNoInpatient);
-      });
+      test(
+        'should return a valid model when the JSON has no inpatient services',
+        () {
+          // Arrange
+          final Map<String, dynamic> jsonMap = tFacilityServicesJsonNoInpatient;
+          // Act
+          final result = FacilityServicesModel.fromJson(jsonMap);
+          // Assert
+          expect(result, tFacilityServicesModelNoInpatient);
+        },
+      );
 
       test('should correctly handle null values for optional fields', () {
-        // arrange
+        // Arrange
         final Map<String, dynamic> jsonMap = {
           'has_outpatient_services': true,
           'has_inpatient_services': true,
@@ -73,9 +81,9 @@ void main() {
           'has_emergency_unit': null,
           'has_icu_or_high_dependency_unit': null,
         };
-        // act
+        // Act
         final result = FacilityServicesModel.fromJson(jsonMap);
-        // assert
+        // Assert
         expect(result.totalInpatientBeds, null);
         expect(result.icuBeds, null);
         expect(result.hasEmergencyUnit, null);
@@ -84,25 +92,30 @@ void main() {
     });
 
     group('toJson', () {
-      test('should return a JSON map containing the proper data with all fields', () {
-        // act
-        final result = tFacilityServicesModel.toJson();
-        // assert
-        expect(result, tFacilityServicesJson);
-      });
+      test(
+        'should return a JSON map containing the proper data with all fields',
+        () {
+          // Arrange
+          // Act
+          final result = tFacilityServicesModel.toJson();
+          // Assert
+          expect(result, tFacilityServicesJson);
+        },
+      );
 
       test('should return a JSON map with null values for optional fields', () {
-        // act
+        // Arrange
+        // Act
         final result = tFacilityServicesModelNoInpatient.toJson();
-        // assert
+        // Assert
         expect(result, tFacilityServicesJsonNoInpatient);
       });
     });
 
     group('fromEntity', () {
       test('should return a valid model when converting from entity', () {
-        // arrange
-        final entity = FacilityServices(
+        // Arrange
+        final entity = FacilityServicesEntity(
           hasOutpatientServices: true,
           hasInpatientServices: true,
           totalInpatientBeds: 100,
@@ -110,96 +123,115 @@ void main() {
           hasEmergencyUnit: true,
           hasIcuOrHighDependencyUnit: true,
         );
-        // act
+        // Act
         final result = FacilityServicesModel.fromEntity(entity);
-        // assert
+        // Assert
         expect(result, tFacilityServicesModel);
         expect(result.hasOutpatientServices, entity.hasOutpatientServices);
         expect(result.hasInpatientServices, entity.hasInpatientServices);
         expect(result.totalInpatientBeds, entity.totalInpatientBeds);
         expect(result.icuBeds, entity.icuBeds);
         expect(result.hasEmergencyUnit, entity.hasEmergencyUnit);
-        expect(result.hasIcuOrHighDependencyUnit, entity.hasIcuOrHighDependencyUnit);
+        expect(
+          result.hasIcuOrHighDependencyUnit,
+          entity.hasIcuOrHighDependencyUnit,
+        );
       });
     });
 
     group('validation', () {
-      test('isIcuBedsCountValid should return true when ICU beds <= total beds', () {
-        // arrange
-        final validServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: 100,
-          icuBeds: 20, // 20 <= 100, valid
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        // assert
-        expect(validServices.isIcuBedsCountValid, true);
-      });
-      
-      test('isIcuBedsCountValid should return true when ICU beds = total beds', () {
-        // arrange
-        final validServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: 20,
-          icuBeds: 20, // 20 = 20, edge case but valid
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        // assert
-        expect(validServices.isIcuBedsCountValid, true);
-      });
+      test(
+        'isIcuBedsCountValid should return true when ICU beds <= total beds',
+        () {
+          // Arrange
+          final validServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: 100,
+            icuBeds: 20, // 20 <= 100, valid
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+          // Act
+          // Assert
+          expect(validServices.isIcuBedsCountValid, true);
+        },
+      );
 
-      test('isIcuBedsCountValid should return false when ICU beds > total beds', () {
-        // arrange
-        final invalidServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: 10,
-          icuBeds: 20, // 20 > 10, invalid
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        // assert
-        expect(invalidServices.isIcuBedsCountValid, false);
-      });
+      test(
+        'isIcuBedsCountValid should return true when ICU beds = total beds',
+        () {
+          // Arrange
+          final validServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: 20,
+            icuBeds: 20, // 20 = 20, edge case but valid
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+          // Act
+          // Assert
+          expect(validServices.isIcuBedsCountValid, true);
+        },
+      );
 
-      test('isIcuBedsCountValid should return true when either bed count is null', () {
-        // arrange
-        final nullTotalServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: null,
-          icuBeds: 20,
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        
-        final nullIcuServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: 100,
-          icuBeds: null,
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        
-        final bothNullServices = FacilityServicesModel(
-          hasOutpatientServices: true,
-          hasInpatientServices: true,
-          totalInpatientBeds: null,
-          icuBeds: null,
-          hasEmergencyUnit: true,
-          hasIcuOrHighDependencyUnit: true,
-        );
-        
-        // assert
-        expect(nullTotalServices.isIcuBedsCountValid, true);
-        expect(nullIcuServices.isIcuBedsCountValid, true);
-        expect(bothNullServices.isIcuBedsCountValid, true);
-      });
+      test(
+        'isIcuBedsCountValid should return false when ICU beds > total beds',
+        () {
+          // Arrange
+          final invalidServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: 10,
+            icuBeds: 20, // 20 > 10, invalid
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+          // Act
+          // Assert
+          expect(invalidServices.isIcuBedsCountValid, false);
+        },
+      );
+
+      test(
+        'isIcuBedsCountValid should return true when either bed count is null',
+        () {
+          // Arrange
+          final nullTotalServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: null,
+            icuBeds: 20,
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+
+          final nullIcuServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: 100,
+            icuBeds: null,
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+
+          final bothNullServices = FacilityServicesModel(
+            hasOutpatientServices: true,
+            hasInpatientServices: true,
+            totalInpatientBeds: null,
+            icuBeds: null,
+            hasEmergencyUnit: true,
+            hasIcuOrHighDependencyUnit: true,
+          );
+
+          // Act
+          // Assert
+          expect(nullTotalServices.isIcuBedsCountValid, true);
+          expect(nullIcuServices.isIcuBedsCountValid, true);
+          expect(bothNullServices.isIcuBedsCountValid, true);
+        },
+      );
     });
   });
 }

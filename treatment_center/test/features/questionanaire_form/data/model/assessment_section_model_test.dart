@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/assessment_rating_model.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/assessment_section_model.dart';
 import 'package:treatment_center/features/questionnaire_form/data/models/assessment_item_model.dart';
-import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_section.dart';
+import 'package:treatment_center/features/questionnaire_form/domain/entities/assessment_section_entity.dart';
 
 void main() {
   // Create test item models for the section
@@ -95,19 +95,21 @@ void main() {
 
   group('AssessmentSectionModel', () {
     test('should be a subclass of AssessmentSection entity', () {
-      // assert
-      expect(tSectionModel, isA<AssessmentSection>());
+      // Arrange
+      // Act
+      // Assert
+      expect(tSectionModel, isA<AssessmentSectionEntity>());
     });
 
     group('fromJson', () {
       test(
         'should return a valid model when the JSON is valid with items and description',
         () {
-          // arrange
+          // Arrange
           final Map<String, dynamic> jsonMap = tSectionJson;
-          // act
+          // Act
           final result = AssessmentSectionModel.fromJson(jsonMap);
-          // assert
+          // Assert
           expect(result.id, tSectionModel.id);
           expect(result.sectionNumber, tSectionModel.sectionNumber);
           expect(result.title, tSectionModel.title);
@@ -119,11 +121,11 @@ void main() {
       test(
         'should return a valid model when the JSON is valid without description',
         () {
-          // arrange
+          // Arrange
           final Map<String, dynamic> jsonMap = tSectionJsonWithoutDescription;
-          // act
+          // Act
           final result = AssessmentSectionModel.fromJson(jsonMap);
-          // assert
+          // Assert
           expect(result.id, tSectionModelWithoutDescription.id);
           expect(
             result.sectionNumber,
@@ -144,11 +146,11 @@ void main() {
       test(
         'should return a valid model when the JSON has empty items list',
         () {
-          // arrange
+          // Arrange
           final Map<String, dynamic> jsonMap = tEmptySectionJson;
-          // act
+          // Act
           final result = AssessmentSectionModel.fromJson(jsonMap);
-          // assert
+          // Assert
           expect(result.id, tEmptySectionModel.id);
           expect(result.items.length, 0);
         },
@@ -159,9 +161,10 @@ void main() {
       test(
         'should return a JSON map containing the proper data with items and description',
         () {
-          // act
+          // Arrange
+          // Act
           final result = tSectionModel.toJson();
-          // assert
+          // Assert
           expect(result['id'], tSectionJson['id']);
           expect(result['section_number'], tSectionJson['section_number']);
           expect(result['title'], tSectionJson['title']);
@@ -176,34 +179,36 @@ void main() {
       test(
         'should return a JSON map containing the proper data without description',
         () {
-          // act
+          // Arrange
+          // Act
           final result = tSectionModelWithoutDescription.toJson();
-          // assert
+          // Assert
           expect(result['description'], null);
         },
       );
 
       test('should return a JSON map with empty items list', () {
-        // act
+        // Arrange
+        // Act
         final result = tEmptySectionModel.toJson();
-        // assert
+        // Assert
         expect(result['items'], []);
       });
     });
 
     group('fromEntity', () {
       test('should return a valid model when converting from entity', () {
-        // arrange
-        final entity = AssessmentSection(
+        // Arrange
+        final entity = AssessmentSectionEntity(
           id: 'section_1',
           sectionNumber: '2.1',
           title: 'Facility Access and Flow',
           description: 'This section evaluates facility access',
           items: [tItemModel1, tItemModel2],
         );
-        // act
+        // Act
         final result = AssessmentSectionModel.fromEntity(entity);
-        // assert
+        // Assert
         expect(result.id, entity.id);
         expect(result.sectionNumber, entity.sectionNumber);
         expect(result.title, entity.title);
@@ -214,44 +219,44 @@ void main() {
 
     group('completion status', () {
       test('isComplete should return true when all items have ratings', () {
-        // arrange
+        // Arrange
         final itemWithRating1 = tItemModel1.copyWith(
           selectedRating: AssessmentRatingModel.meetsTarget(),
         );
         final itemWithRating2 = tItemModel2.copyWith(
           selectedRating: AssessmentRatingModel.partiallyMeetsTarget(),
         );
-
+        // Act
         final section = AssessmentSectionModel(
           id: 'section_1',
           sectionNumber: '2.1',
           title: 'Facility Access and Flow',
           items: [itemWithRating1, itemWithRating2],
         );
-
-        // assert
+        // Assert
         expect(section.isComplete, true);
       });
 
       test('isComplete should return false when any item has no rating', () {
-        // assert
+        // Arrange
+        // Act
+        // Assert
         expect(tSectionModel.isComplete, false);
       });
 
       test('completedItemsCount should return correct count', () {
-        // arrange
+        // Arrange
         final itemWithRating1 = tItemModel1.copyWith(
           selectedRating: AssessmentRatingModel.meetsTarget(),
         );
-
+        // Act
         final section = AssessmentSectionModel(
           id: 'section_1',
           sectionNumber: '2.1',
           title: 'Facility Access and Flow',
           items: [itemWithRating1, tItemModel2], // Only one item has rating
         );
-
-        // assert
+        // Assert
         expect(section.completedItemsCount, 1);
       });
     });
