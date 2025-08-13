@@ -1,0 +1,184 @@
+# =============================================================================
+# TREATMENT CENTER - FVD ASSESSMENT APPLICATION
+# =============================================================================
+name: treatment_center
+description: >
+  Structural rapid assessment tool for treatment centers during Ebola and Marburg outbreaks
+
+# Prevent accidental publishing to pub.dev (remove to make public)
+publish_to: "none"
+
+# App version: major.minor.patch+build
+version: 1.0.0+1
+
+# =============================================================================
+# ENVIRONMENT REQUIREMENTS
+# =============================================================================
+environment:
+  sdk: ^3.7.0
+
+# =============================================================================
+# DEPENDENCIES
+# =============================================================================
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- Core Flutter & Platform Integration ---
+  cupertino_icons: ^1.0.8
+  meta: ^1.16.0
+  collection: ^1.19.1
+  typed_data: ^1.4.0
+  uuid: ^4.5.1
+
+  # --- State Management & Architecture ---
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.1
+  fpdart: ^1.1.1
+  get_it: ^8.0.3
+
+  # --- Data Storage & Persistence ---
+  drift: ^2.28.0
+  drift_sqflite: ^2.0.1
+  path: ^1.8.0
+  path_provider: ^2.1.5
+  path_provider_platform_interface: ^2.1.2
+  shared_preferences: ^2.5.3
+  sqlite3: ^2.8.0
+  sqlite3_flutter_libs: ^0.5.39
+
+  # --- Serialization & Code Generation ---
+  freezed: ^3.0.6
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+
+  # --- File & Document Handling ---
+  archive: ^3.6.1
+  excel: ^4.0.6
+  file_picker: ^10.2.1
+  open_file: ^3.3.2
+  pdf: ^3.11.3
+  printing: ^5.14.2
+
+  # --- UI & Forms ---
+  circle_stepper: ^1.0.4
+  fl_chart: ^1.0.0
+  flutter_form_builder: ^10.0.1
+  form_builder_validators: ^11.1.2
+  photo_view: ^0.15.0
+  responsive_framework: ^1.5.1
+
+  # --- Validation & Utilities ---
+  email_validator: ^3.0.0
+  intl: ^0.20.2
+  package_info_plus: ^8.3.0
+  url_launcher: ^6.3.2
+
+  # --- Connectivity & HTTP ---
+  http: ^1.4.0
+  internet_connection_checker: ^3.0.1
+
+  # --- Device Features & Permissions ---
+  camera: ^0.11.2
+  camera_web: ^0.3.5
+  geocoding: ^4.0.0
+  geolocator: ^14.0.2
+  google_maps_flutter: ^2.12.3
+  image_picker: ^1.1.2
+  image_picker_for_web: ^3.0.6
+  latlong2: ^0.9.1
+  permission_handler: ^12.0.1
+
+  # --- Email Functionality ---
+  flutter_email_sender: ^7.0.0
+  mailer: ^6.4.1
+
+  # --- Firebase Services ---
+  cloud_functions: ^5.6.2
+  firebase_auth: ^5.7.0
+  firebase_core: ^3.15.2
+  firebase_storage: ^12.4.10
+
+  # --- Mapping & Location ---
+  flutter_map: ^8.2.1
+  web: ^1.1.1
+
+  # --- Content Sharing ---
+  share_plus: ^11.0.0
+
+  # --- Dev & Build Utilities (runtime needed) ---
+  flutter_launcher_icons: ^0.14.4
+
+# =============================================================================
+# DEVELOPMENT DEPENDENCIES
+# =============================================================================
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # --- Code Generation & Build Tools ---
+  build_runner: ^2.6.0
+  drift_dev: ^2.28.0
+
+  # --- Testing & Coverage ---
+  bloc_test: ^10.0.0
+  firebase_core_platform_interface: ^6.0.0
+  mockito: ^5.5.0
+  test_cov_console: ^0.2.2
+
+  # --- Linting & Code Quality ---
+  flutter_lints: ^6.0.0
+
+# =============================================================================
+# FLUTTER CONFIGURATION
+# =============================================================================
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/templates/
+    - assets/templates/fvd_assessment_template.docx
+    - assets/fonts/
+    - assets/fonts/NotoSans-Regular.ttf
+    - assets/fonts/NotoSans-Bold.ttf
+    - assets/fonts/NotoSans-Italic.ttf
+    - assets/images/logo.png
+    # JSON assets
+    - assets/geolocation/countries.json
+    - assets/geolocation/states.json
+    - assets/geolocation/cities.json
+    # Icon
+    - assets/icon/icon-ios.png
+    - assets/icon/icon-android.png
+
+flutter_launcher_icons:
+  image_path: "assets/icon/icon-ios.png"
+  android: true
+  ios: true
+  web:
+    generate: true
+  windows:
+    generate: true
+  macos:
+    generate: true
+
+# =============================================================================
+# NOTES & COMPATIBILITY
+# =============================================================================
+#
+# Firebase Compatibility:
+# - firebase_core ^3.15.2 works with firebase_storage ^12.4.10
+#
+# Architecture Notes:
+# - BLoC for state management
+# - Drift for type-safe local persistence
+# - Get_it for dependency injection
+# - Fpdart for functional programming patterns
+#
+# Document Generation:
+# - PDF generation for assessment reports
+# - DOCX/Excel support for structured templates
+#
+# Testing Strategy:
+# - flutter_test + mockito for unit testing
+# - test_cov_console for coverage reporting
