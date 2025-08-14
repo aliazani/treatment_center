@@ -415,7 +415,7 @@ For issues, questions, or suggestions:
 ---
 
 **Version**: 1.0.0+1  
-**Last Updated**: December 2024  
+**Last Updated**: August 2025  
 **Status**: Production Ready
 
 *Built with ❤️ for healthcare workers on the frontlines of disease outbreaks*
