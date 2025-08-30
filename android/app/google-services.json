@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774682337614",
+    "project_id": "treatmentcenter",
+    "storage_bucket": "treatmentcenter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774682337614:android:fabcc02350ebf03b9d7e1f",
+        "android_client_info": {
+          "package_name": "com.example.treatment_center"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7oWt1GGaEl1Lpkc7D-d07VkcqAwrgOkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
