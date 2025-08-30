@@ -30,9 +30,24 @@ jobs:
       - name: Run tests
         run: flutter test --coverage
 
-      # Upload coverage as artifact (downloadable in GitHub UI)
-      - name: Upload coverage report
+      # Install LCOV (to generate HTML)
+      - name: Install lcov
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
+      # Generate HTML report from lcov.info
+      - name: Generate HTML coverage report
+        run: genhtml coverage/lcov.info -o coverage/html
+
+      # Upload raw lcov file
+      - name: Upload lcov.info
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: lcov-report
           path: coverage/lcov.info
+
+      # Upload HTML report (entire folder)
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-coverage-report
+          path: coverage/html
