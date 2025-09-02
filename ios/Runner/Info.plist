@@ -45,5 +45,21 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Permission for picking from the photo library -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to pick images.</string>
+	<!-- Permission for taking new photos -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to take pictures.</string>
+	<!-- Permission for recording video audio (if you pick videos) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone to record video audio.</string>
+	  <!-- When-in-use location permission -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to tag photos with where they were taken.</string>
+	<!-- Only if you actually need “always” location: -->
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location even when the app is backgrounded, to track visits.</string>
+
 </dict>
 </plist>
