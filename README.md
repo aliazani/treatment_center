@@ -7,7 +7,7 @@
 ![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-green)
 ![State Management](https://img.shields.io/badge/State%20Management-BLoC-purple)
 ![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-orange)
-![Tests](https://github.com/aliazani/treatment_center/actions/workflows/flutter-tests.yml/badge.svg)
+![Tests](https://github.com/aliazani/treatment_center/actions/workflows/flutter-test.yml/badge.svg)
 
 ## 📋 Table of Contents
 
