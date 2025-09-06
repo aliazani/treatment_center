@@ -274,8 +274,7 @@ class _ResponsiveQuickActions extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder:
-                                    (context) =>
-                                        const CompareAssessmentsPage(),
+                                    (context) => const CompareAssessmentsPage(),
                               ),
                             ),
                         icon: Icons.compare_arrows,
@@ -427,21 +426,21 @@ class _ResponsiveAssessmentOverview extends StatelessWidget {
                     _StatCard(
                       icon: Icons.checklist_outlined,
                       value: '35+',
-                      label: 'Assessment\nCriteria',
+                      label: 'Assessment Criteria',
                       color: theme.colorScheme.primary,
                       isCompact: isMobile,
                     ),
                     _StatCard(
                       icon: Icons.layers_outlined,
                       value: '5',
-                      label: 'Major\nSections',
+                      label: 'Major Sections',
                       color: theme.colorScheme.secondary,
                       isCompact: isMobile,
                     ),
                     _StatCard(
                       icon: Icons.business_outlined,
                       value: '2',
-                      label: 'Facility\nTypes',
+                      label: 'Facility Types',
                       color: theme.colorScheme.tertiary,
                       isCompact: isMobile,
                     ),
@@ -566,7 +565,7 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(isCompact ? 12 : 16),
+      padding: EdgeInsets.all(isCompact ? 6 : 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
@@ -576,7 +575,6 @@ class _StatCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: color, size: isCompact ? 20 : 24),
-          SizedBox(height: isCompact ? 6 : 8),
           Text(
             value,
             style: TextStyle(
@@ -585,7 +583,6 @@ class _StatCard extends StatelessWidget {
               color: color,
             ),
           ),
-          SizedBox(height: isCompact ? 2 : 4),
           Text(
             label,
             style: TextStyle(
