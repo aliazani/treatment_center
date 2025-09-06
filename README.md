@@ -7,6 +7,7 @@
 ![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-green)
 ![State Management](https://img.shields.io/badge/State%20Management-BLoC-purple)
 ![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-orange)
+![Tests](https://github.com/aliazani/treatment_center/actions/workflows/flutter-tests.yml/badge.svg)
 
 ## 📋 Table of Contents
 
@@ -409,7 +410,7 @@ This project is licensed under the GPL2 License - see the [LICENSE](LICENSE) fil
 
 For issues, questions, or suggestions:
 - Open an issue on GitHub
-- Contact: who-treatmentcenter@gmail.com
+- Contact: treatmentcenter2025@gmail.com
 - Documentation: [docs.treatmentcenter.org](https://docs.treatmentcenter.org)
 
 ---
