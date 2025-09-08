@@ -12,16 +12,16 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Key Components](#key-components)
-- [Testing](#testing)
-- [Export Capabilities](#export-capabilities)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Architecture](#%EF%B8%8F-architecture)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Key Components](#-key-components)
+- [Testing](#-testing)
+- [Export Capabilities](#-export-capabilities-1)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 🏥 Overview
 
