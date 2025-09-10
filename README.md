@@ -375,7 +375,7 @@ test/
 - Permissions: Camera, Storage
 
 ### iOS
-- Minimum iOS: 12.0
+- Minimum iOS: 14.0
 - Permissions: Camera, Photo Library
 - Info.plist configurations required
 
